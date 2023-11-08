@@ -4,6 +4,7 @@ import { Elemento } from './interfaces/interfaces';
 import { FormControlComponent } from './components/formControlComponent/FormControlComponent';
 import { useState } from 'react';
 import { SelectComponent } from './components/select/SelectComponent';
+import { DatagridComponent } from './components/datagrid/datagridComponent';
 
 const sectores: Elemento[] = [
   {id: 1, desc: 'carnes'},
@@ -36,9 +37,15 @@ export default function App(){
     <Container className='container'>
       <FormControlComponent setRadioOption={handleRadioChange} radioOption={radioOption} />
       { radioOption === "Sector" ? (
-        <SelectComponent lista={sectores} setSelectOption={selectChange} selectOption={selectOption}/>
+        <>
+          <SelectComponent lista={sectores} setSelectOption={selectChange} selectOption={selectOption} />
+          <DatagridComponent />
+        </>
       ) : (
-        <SelectComponent lista={repositores} setSelectOption={selectChange} selectOption={selectOption}/>
+        <>
+          <SelectComponent lista={repositores} setSelectOption={selectChange} selectOption={selectOption}/>
+          <DatagridComponent />
+        </>
       ) } 
     </Container>
   )
