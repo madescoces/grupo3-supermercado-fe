@@ -7,12 +7,12 @@ const rows: GridRowsProp = [
 ];
 
 const columns: GridColDef[] = [
-  { field: 'col1', headerName: 'Column 1', width: 150 },
+  { field: 'col1', headerName: 'Column 1', width: 200 },
   { field: 'col2', headerName: 'Column 2', width: 150 },
 ];
 
 export const DatagridComponent = () => {
   return(
-    <DataGrid columns={columns} rows={rows} />
+    <DataGrid className="grid" columns={columns} rows={rows} />
   )
 }

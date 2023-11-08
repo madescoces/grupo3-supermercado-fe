@@ -7,13 +7,13 @@ interface FormControlComponentProps {
 
 export const FormControlComponent = ({radioOption, setRadioOption}: FormControlComponentProps) => {
   return (
-    <FormControl>
+    <FormControl className="radio">
       <RadioGroup
         value={radioOption}
         onChange={(e) => setRadioOption(e.target.value)}
       >
-        <FormControlLabel className='radioTxt' value="Sector" control={<Radio />} label="Sector" />
-        <FormControlLabel className='radioTxt' value="Repositor" control={<Radio />} label="Repositor" />
+        <FormControlLabel className='radio__text' value="Sector" control={<Radio />} label="Sector" />
+        <FormControlLabel className='radio__text' value="Repositor" control={<Radio />} label="Repositor" />
       </RadioGroup>
     </FormControl>
   )

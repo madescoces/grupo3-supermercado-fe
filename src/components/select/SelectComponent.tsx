@@ -7,22 +7,20 @@ interface SelectComponentProps {
   selectOption: string
 }
 
-export const SelectComponent = ({lista, selectOption, setSelectOption}: SelectComponentProps) => { 
+export const SelectComponent = ({ lista, selectOption, setSelectOption }: SelectComponentProps) => {
   return (
-    <div>
-      <FormControl sx={{ m: 1, width: 300 }}>
-        <Select          
-          value={selectOption}
-          defaultValue={selectOption}          
-          onChange={(e) => setSelectOption(e.target.value)}
-        >
-          {lista.map(({id, desc}) => (
-            <MenuItem key={id} value={desc}>
-              {desc}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-    </div>
-  );
+    <FormControl className="select">
+      <Select
+        value={selectOption}
+        defaultValue={selectOption}
+        onChange={(e) => setSelectOption(e.target.value)}
+      >
+        {lista.map(({ id, desc }) => (
+          <MenuItem key={id} value={desc}>
+            {desc}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
+  )
 }

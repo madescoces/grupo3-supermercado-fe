@@ -1,5 +1,4 @@
 import './App.css'
-import { Container } from '@mui/material'
 import { Elemento } from './interfaces/interfaces';
 import { FormControlComponent } from './components/formControlComponent/FormControlComponent';
 import { useState } from 'react';
@@ -34,11 +33,11 @@ export default function App(){
   }
 
   return (
-    <Container className='container'>
+    <div className='base'>
       <FormControlComponent setRadioOption={handleRadioChange} radioOption={radioOption} />
       { radioOption === "Sector" ? (
         <>
-          <SelectComponent lista={sectores} setSelectOption={selectChange} selectOption={selectOption} />
+          <SelectComponent lista={sectores} setSelectOption={selectChange} selectOption={selectOption} />          
           <DatagridComponent />
         </>
       ) : (
@@ -47,6 +46,6 @@ export default function App(){
           <DatagridComponent />
         </>
       ) } 
-    </Container>
+    </div>
   )
 }
