@@ -1,34 +1,41 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import { Container } from '@mui/material'
+import { Elemento } from './interfaces/interfaces';
+import { FormControlComponent } from './components/formControlComponent/FormControlComponent';
+import { useState } from 'react';
+import { SelectComponent } from './components/select/SelectComponent';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [option, setOption] = useState('Sector')
+
+  const sectores: Elemento[] = [
+    {id: 1, desc: 'carnes'},
+    {id: 2, desc: 'lacteos'},
+    {id: 3, desc: 'bebidas'},
+    {id: 4, desc: 'verduras'},
+  ]
+
+  const repositores: Elemento[] = [
+    {id: 1, desc: 'juan'},
+    {id: 2, desc: 'pepe'},
+    {id: 3, desc: 'pablin'},
+    {id: 4, desc: 'bruno'},
+  ]
+
+  const handleChange = (value: string) => {
+    console.log("pepe", value)
+    setOption(value)
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <Container className='container'>
+      <FormControlComponent setOption={handleChange} option={option} />
+      { option === "Sector" ? (
+        <SelectComponent lista={sectores} def={sectores[0].desc}/>
+      ) : (
+        <SelectComponent lista={repositores} def={repositores[0].desc}/>
+      ) } 
+    </Container>
   )
 }
 
