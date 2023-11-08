@@ -1,26 +1,20 @@
 import { FormControl, Select, MenuItem } from "@mui/material"
-import { Elemento } from "../../interfaces/interfaces";
-import { useState } from "react";
+import { Elemento } from "../../interfaces/interfaces"
 
 interface SelectComponentProps {
-  lista: Elemento[],
-  def: string
+  lista: Elemento[]
+  setSelectOption: (value: string) => void
+  selectOption: string
 }
 
-export const SelectComponent = ({lista, def}: SelectComponentProps) => {
-  const [option, setOption] = useState<string>(def)
-
-  const handleChange = (value: string) => {
-    setOption(value)
-  }
-
+export const SelectComponent = ({lista, selectOption, setSelectOption}: SelectComponentProps) => { 
   return (
     <div>
       <FormControl sx={{ m: 1, width: 300 }}>
-        <Select
-          defaultValue={def}
-          value={option}
-          onChange={(e) => handleChange(e.target.value)}
+        <Select          
+          value={selectOption}
+          defaultValue={selectOption}          
+          onChange={(e) => setSelectOption(e.target.value)}
         >
           {lista.map(({id, desc}) => (
             <MenuItem key={id} value={desc}>
