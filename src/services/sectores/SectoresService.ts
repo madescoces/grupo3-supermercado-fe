@@ -1,11 +1,10 @@
 import axios from 'axios'
-import { REST_SERVER_URL } from '../constants'
 import { ISector } from 'interfaces/interfaces'
 import { Sector } from 'src/model/sector/sector'
 
-const SectorService = () => {
+const SectoresService = () => {  
   const getAll = async (): Promise<Sector[]> => {
-    const response$ = await axios.get<ISector[]>(`${REST_SERVER_URL}/sectores`)
+    const response$ = await axios.get<ISector[]>(`${import.meta.env.VITE_REST_SERVER_URL}/sectores`)
     const sectores = response$.data.map((sect) => Sector.fromJSON(sect))    
     return sectores
   }
@@ -15,4 +14,4 @@ const SectorService = () => {
   }
 }
 
-export const sectorService = SectorService()
+export const sectorService = SectoresService()

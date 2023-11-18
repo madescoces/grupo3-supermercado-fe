@@ -1,9 +1,9 @@
 export interface ISector {
   id: number,
-  desc: string
+  name: string
 }
 
 export interface IRepositor {
   id: number,
-  desc: string
+  name: string
 }

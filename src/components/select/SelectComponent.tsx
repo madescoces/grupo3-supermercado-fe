@@ -16,9 +16,9 @@ export const SelectComponent = ({ elements, selectOption, setSelectOption }: Sel
           defaultValue={selectOption}
           onChange={(e) => setSelectOption(e.target.value)}
         >
-          {elements.map(({desc, id}, index) => (
-            <MenuItem key={index} value={desc}>
-              {desc}
+          {elements.map(({name, id}, index) => (
+            <MenuItem key={index} value={name}>
+              {name}
             </MenuItem>
           ))}
         </Select>      

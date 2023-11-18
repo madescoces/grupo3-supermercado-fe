@@ -5,9 +5,9 @@ export class Repositor{
   constructor(public props: IRepositor) {}
   
   get id(): number { return this.props.id; }
-  get desc(): string { return this.props.desc; }
+  get name(): string { return this.props.name; }
 
-  static fromJSON(sector: IRepositor): Repositor {
-    return new Repositor(sector)
+  static fromJSON(repositor: IRepositor): Repositor {
+    return new Repositor(repositor)
   }
 }

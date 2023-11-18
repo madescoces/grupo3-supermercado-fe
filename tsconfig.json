@@ -37,6 +37,9 @@
       ],
       "components/*": [
         "./src/components/*"
+      ],
+      "constants/*": [
+        "./src/components/*"
       ]
     }
   },
