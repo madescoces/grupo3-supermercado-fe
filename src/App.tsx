@@ -1,14 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import './App.css'
 import { FormControlComponent } from 'components/formControlComponent/FormControlComponent'
-import { useState } from 'react';
+import { useState } from 'react'
 import { SelectComponent } from 'components/select/SelectComponent'
 import { DatagridComponent } from 'components/datagrid/datagridComponent'
 import { useOnInit } from 'customHooks/hooks'
 import { Sector } from 'model/sector/sector'
 import { sectorService } from 'services/sectores/SectoresService'
 import { Repositor } from 'model/repositor/repositor'
-import { repositorService } from 'src/services/repositores/RepositoresService';
+import { repositorService } from 'src/services/repositores/RepositoresService'
+import { productoService } from './services/productos/ProductosService'
+import { Producto } from './model/producto/producto'
 
 const sectoresStub: Array<Sector> = [
   new Sector({ id: 1, name: 'carnes' }),
@@ -26,58 +28,99 @@ const repositoresStub: Array<Repositor> = [
 
 export default function App() {
   const [elements, setElements] = useState<Sector[] | Repositor[]>(sectoresStub)
+  const [products, setProducts] = useState<Producto[]>([])
   const [radioOption, setRadioOption] = useState('Sector')
-  const [selectOption, setSelectOption] = useState<string>(elements[0].name)
   
+  const initialElement = (): Sector | Repositor => {
+    return elements[0]
+  }
+  
+  const [selectOption, setSelectOption] = useState<Sector | Repositor>(elements[0])
+
   useOnInit(() => getSectores())
 
-  const getSectores = async () => {    
+  const getSectores = async () => {
     try {
-      const sectores$ = await sectorService.getAll()
-      setElements(sectores$)
-      setSelectOption(sectores$[0].name)      
+      const sectores$ = await sectorService.getAll()      
+      setElements([...sectores$])
+      setSelectOption(sectores$[0])
+      getProductosBySector(0)
     } catch (e) {
-      setSelectOption(sectoresStub[0].name)
+      setSelectOption(sectoresStub[0])
       console.error('Unreachable server error', e)
     }
   }
 
-  const getRepositores = async () => {    
+  const getRepositores = async () => {
     try {
       const repositores$ = await repositorService.getAll()
-      setElements(repositores$)
-      setSelectOption(repositores$[0].name)      
+      setElements([...repositores$])
+      setSelectOption(repositores$[0])
+      getProductosBySector(0)
     } catch (e) {
-      setSelectOption(repositoresStub[0].name)
+      setSelectOption(repositoresStub[0])
       console.error('Unreachable server error', e)
     }
   }
 
-  const handleRadioChange = (value: string) => {    
-    setRadioOption(value)
-    value === "Sector" && getSectores()
-    value === 'Repositor' && getRepositores()
-    setSelectOption(elements[0].name)
+  const getProductosBySector = async (id:number) => {
+    try {
+      const productos$ = await productoService.getBySector(id)
+      setProducts([...productos$])      
+    } catch (e) {      
+      console.error('Unreachable server error', e)
+    }
   }
 
-  const selectChange = (value: string) => {
+  const getProductosByRepositor = async (id:number) => {
+    try {
+      const productos$ = await productoService.getByRepositor(id)
+      setProducts([...productos$])      
+    } catch (e) {      
+      console.error('Unreachable server error', e)
+    }
+  }
+
+  const handleRadioChange = (value: string) => {
+    setRadioOption(value)
+    if (value === 'Sector'){ 
+      getSectores()
+      getProductosBySector(0)
+    } else if (
+    value === 'Repositor'){ 
+      getRepositores()
+      getProductosByRepositor(0)
+    }
+    setSelectOption(initialElement())
+  }
+
+  const handleSelectedOption = ( value: Sector | Repositor ) =>{
     setSelectOption(value)
+    radioOption === 'Sector' ? getProductosBySector(value.id) : getProductosByRepositor(value.id)
   }
 
   return (
-    <div className='base'>
+    <div className="base">
       <FormControlComponent setRadioOption={handleRadioChange} radioOption={radioOption} />
-        {radioOption === "Sector" ? (
-          <>            
-            <SelectComponent elements={elements as Sector[]} setSelectOption={selectChange} selectOption={selectOption} />
-            <DatagridComponent />
-          </>
-        ) : (
-          <>
-            <SelectComponent elements={elements as Repositor[]} setSelectOption={selectChange} selectOption={selectOption} />
-            <DatagridComponent />
-          </>
-        )}
+      {radioOption === 'Sector' ? (
+        <>
+          <SelectComponent
+            elements={elements as Sector[]}
+            setSelectOption={handleSelectedOption}
+            selectOption={selectOption}
+          />
+          <DatagridComponent products={products}/>
+        </>
+      ) : (
+        <>
+          <SelectComponent
+            elements={elements as Repositor[]}
+            setSelectOption={handleSelectedOption}
+            selectOption={selectOption}
+          />
+          <DatagridComponent products={products}/>
+        </>
+      )}
     </div>
   )
 }
