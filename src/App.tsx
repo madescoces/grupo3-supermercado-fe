@@ -30,21 +30,16 @@ export default function App() {
   const [elements, setElements] = useState<Sector[] | Repositor[]>(sectoresStub)
   const [products, setProducts] = useState<Producto[]>([])
   const [radioOption, setRadioOption] = useState('Sector')
-  
-  const initialElement = (): Sector | Repositor => {
-    return elements[0]
-  }
-  
   const [selectOption, setSelectOption] = useState<Sector | Repositor>(elements[0])
 
-  useOnInit(() => getSectores())
+  useOnInit(() => handleRadioChange('Sector'))
 
   const getSectores = async () => {
     try {
       const sectores$ = await sectorService.getAll()      
       setElements([...sectores$])
       setSelectOption(sectores$[0])
-      getProductosBySector(0)
+      getProductosBySector(1)
     } catch (e) {
       setSelectOption(sectoresStub[0])
       console.error('Unreachable server error', e)
@@ -56,7 +51,7 @@ export default function App() {
       const repositores$ = await repositorService.getAll()
       setElements([...repositores$])
       setSelectOption(repositores$[0])
-      getProductosBySector(0)
+      getProductosBySector(1)
     } catch (e) {
       setSelectOption(repositoresStub[0])
       console.error('Unreachable server error', e)
@@ -85,13 +80,10 @@ export default function App() {
     setRadioOption(value)
     if (value === 'Sector'){ 
       getSectores()
-      getProductosBySector(0)
     } else if (
     value === 'Repositor'){ 
       getRepositores()
-      getProductosByRepositor(0)
     }
-    setSelectOption(initialElement())
   }
 
   const handleSelectedOption = ( value: Sector | Repositor ) =>{
