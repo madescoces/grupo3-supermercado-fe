@@ -51,7 +51,7 @@ export default function App() {
       const repositores$ = await repositorService.getAll()
       setElements([...repositores$])
       setSelectOption(repositores$[0])
-      getProductosBySector(1)
+      getProductosByRepositor(1)
     } catch (e) {
       setSelectOption(repositoresStub[0])
       console.error('Unreachable server error', e)
