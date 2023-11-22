@@ -3,13 +3,14 @@ import { IProducto } from "src/interfaces/interfaces";
 export class Producto {
 
   constructor(public props: IProducto) { }
+  
+  get id(): number { return this.props.id}
+  get id_producto(): number { return this.props.id_producto }
+  get producto(): string { return this.props.producto }
+  get gondola(): string { return this.props.gondola }
+  get presentacion(): string { return this.props.presentacion }
 
-  get productoId(): number { return this.props.id_producto }
-  get productoNombre(): string { return this.props.producto }
-  get gondolaNombre(): string { return this.props.gondola }
-  get presentacionDesc(): string { return this.props.presentacion }
-
-  static fromJSON(producto: IProducto): Producto {
+  static fromJSON(producto: IProducto): Producto {    
     return new Producto(producto)
   }
 }

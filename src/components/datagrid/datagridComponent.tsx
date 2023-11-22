@@ -15,12 +15,13 @@ import { TableList } from 'src/model/tablelist/tablelist'
 
 interface IDataGridComponent {
   products: Producto[]
+  handleRowClick: (id:number) => void
 }
 
-export const DatagridComponent = ({ products }: IDataGridComponent) => {
+export const DatagridComponent = ({ products, handleRowClick }: IDataGridComponent) => {
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-      backgroundColor: theme.palette.common.black,
+      backgroundColor: `var(--tableHead)`,
       color: theme.palette.common.white,
     },
     [`&.${tableCellClasses.body}`]: {
@@ -31,13 +32,12 @@ export const DatagridComponent = ({ products }: IDataGridComponent) => {
   const StyledTableRow = styled(TableRow)(({ theme }) => ({
     '&:nth-of-type(odd)': {
       backgroundColor: theme.palette.action.hover,
-    },
-    // hide last border
+    },    
     '&:last-child td, &:last-child th': {
       border: 0,
     },
-  }))
-
+  }))  
+  
   const tableTitles:ITitle[] = [
     {
       title: 'ID Producto',
@@ -52,7 +52,7 @@ export const DatagridComponent = ({ products }: IDataGridComponent) => {
       aligment: 'right',
     },
     {
-      title: 'Descripción',
+      title: 'Presentación',
       aligment: 'right',
     },
   ]
@@ -65,7 +65,7 @@ export const DatagridComponent = ({ products }: IDataGridComponent) => {
   const table = new TableList(tableData)
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer className="grid" component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>
@@ -74,19 +74,17 @@ export const DatagridComponent = ({ products }: IDataGridComponent) => {
         </TableHead>
         <TableBody>
           {table.data.map((row, index) => (
-            <StyledTableRow key={index}>              
+            <StyledTableRow key={index} onClick={() => handleRowClick(row.id)}>              
               <StyledTableCell component="th" scope="row">
-                {row.productoId}
+                {row.id_producto}
               </StyledTableCell>
-              <StyledTableCell align="right">{row.productoNombre}</StyledTableCell>
-              <StyledTableCell align="right">{row.gondolaNombre}</StyledTableCell>
-              <StyledTableCell align="right">{row.presentacionDesc}</StyledTableCell>              
+              <StyledTableCell align="right">{row.producto}</StyledTableCell>
+              <StyledTableCell align="right">{row.gondola}</StyledTableCell>
+              <StyledTableCell align="right">{row.presentacion}</StyledTableCell>              
             </StyledTableRow>
           ))}
         </TableBody>
       </Table>
     </TableContainer>
-  )
-
-  // return <DataGrid className="grid" columns={columns} rows={getRows()} />
+  )  
 }

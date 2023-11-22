@@ -10,11 +10,27 @@ export interface IRepositor {
   name: string
 }
 
-export interface IProducto {  
+export interface IProducto {    
+  id: number
   id_producto: number
   producto: string
   gondola: string
   presentacion: string
+}
+
+export interface IBigProducto {
+  fecha: string
+  id_producto: number
+  producto: string
+  descripcion: string
+  id_reemplazo: number
+  presentacion: string
+  fila: string
+  gondola: string
+  sector: string
+  repositor: string
+  empresa: string
+  domicilio_empresa: string
 }
 
 export type TextAlign = "left" | "center" | "right" | "justify" | "inherit" | undefined
@@ -26,7 +42,8 @@ export enum SelectType{
 
 export enum SelectTypeURL {
   Sector = "/productos/sector/",
-  Repositor = "/productos/repositor/"
+  Repositor = "/productos/repositor/",
+  BigProducto = "/productos/producto-full/"
 }
 export interface ITitle {
   title: string
