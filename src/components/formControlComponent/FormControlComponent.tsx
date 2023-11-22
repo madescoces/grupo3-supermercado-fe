@@ -9,6 +9,7 @@ export const FormControlComponent = ({radioOption, setRadioOption}: FormControlC
   return (
     <FormControl className="radio">
       <RadioGroup
+        className="radio__group"
         value={radioOption}
         onChange={(e) => setRadioOption(e.target.value)}
       >

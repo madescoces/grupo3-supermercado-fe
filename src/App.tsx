@@ -36,7 +36,7 @@ export default function App() {
 
   const getSectores = async () => {
     try {
-      const sectores$ = await sectorService.getAll()      
+      const sectores$ = await sectorService.getAll()
       setElements([...sectores$])
       setSelectOption(sectores$[0])
       getProductosBySector(1)
@@ -58,61 +58,57 @@ export default function App() {
     }
   }
 
-  const getProductosBySector = async (id:number) => {
+  const getProductosBySector = async (id: number) => {
     try {
       const productos$ = await productoService.getBySector(id)
-      setProducts([...productos$])      
-    } catch (e) {      
+      setProducts([...productos$])
+    } catch (e) {
       console.error('Unreachable server error', e)
     }
   }
 
-  const getProductosByRepositor = async (id:number) => {
+  const getProductosByRepositor = async (id: number) => {
     try {
       const productos$ = await productoService.getByRepositor(id)
-      setProducts([...productos$])      
-    } catch (e) {      
+      setProducts([...productos$])
+    } catch (e) {
       console.error('Unreachable server error', e)
     }
   }
 
   const handleRadioChange = (value: string) => {
     setRadioOption(value)
-    if (value === 'Sector'){ 
+    if (value === 'Sector') {
       getSectores()
-    } else if (
-    value === 'Repositor'){ 
+    } else if (value === 'Repositor') {
       getRepositores()
     }
   }
 
-  const handleSelectedOption = ( value: Sector | Repositor ) =>{
+  const handleSelectedOption = (value: Sector | Repositor) => {
     setSelectOption(value)
     radioOption === 'Sector' ? getProductosBySector(value.id) : getProductosByRepositor(value.id)
   }
 
   return (
     <div className="base">
-      <FormControlComponent setRadioOption={handleRadioChange} radioOption={radioOption} />
-      {radioOption === 'Sector' ? (
-        <>
+      <div className="navbar">
+        <FormControlComponent setRadioOption={handleRadioChange} radioOption={radioOption} />
+        {radioOption === 'Sector' ? (
           <SelectComponent
             elements={elements as Sector[]}
             setSelectOption={handleSelectedOption}
             selectOption={selectOption}
           />
-          <DatagridComponent products={products}/>
-        </>
-      ) : (
-        <>
+        ) : (
           <SelectComponent
             elements={elements as Repositor[]}
             setSelectOption={handleSelectedOption}
             selectOption={selectOption}
           />
-          <DatagridComponent products={products}/>
-        </>
-      )}
+        )}
+      </div>
+      <DatagridComponent products={products} />
     </div>
   )
 }

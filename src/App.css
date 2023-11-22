@@ -3,36 +3,53 @@
   min-height: 100vh;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: center; 
 }
 
 .base{
-  background-color: rgb(238, 246, 255);
-  border-radius: 10px;
+  background-color: hsla(33, 100%, 98%, 0.95);
+  border-radius: 1em;
   min-height: 80vh;
   min-width: 90vw;
   padding: var(--padding);
 }
 
-.radio{
-  width: 15%;
-  height: fit-content;  
+.navbar{
+  display: flex;
+  align-items: center;
+  gap: 2em;
+  height: 4.6em;
+  margin-bottom: 1.5em;
+  border-radius: 0.5em;  
+  box-shadow: var(--box-shadow);  
 }
 
-.select{
-  width: 30%;
-  height: fit-content;     
+.radio{  
+  min-width: 9em;
+  max-width: 10em;    
+  margin-left: 1.2em;    
 }
 
-.select >:first-child{
-  margin: 13px 0;  
+.radio .MuiRadio-root{  
+  padding: 0.1em;  
+}
+
+.field__form{
+  min-width: 15em;    
 }
 
 .grid{  
-  min-width: 100%;    
-  margin-top: var(--gap);  
+  border-radius: 0.5em;  
 }
 
-.radio__text{
-  color: rgb(6, 53, 100);
+.radio__text{  
+  color: rgb(6, 53, 100);    
+}
+
+.MuiFormControlLabel-label{
+  margin-left: 0.3em;
+}
+
+.MuiDataGrid-root * {  
+  border-color: var(--gray) !important;
 }

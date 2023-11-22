@@ -17,8 +17,8 @@ export const SelectComponent = ({ elements, selectOption, setSelectOption }: Sel
   
   return (
     <>
-      <FormControl className="select">
-        <Select
+      <FormControl className="field__form">
+        <Select className="field__select"
           value={selectOption.name}
           defaultValue={selectOption.name}
           onChange={handleChange}
