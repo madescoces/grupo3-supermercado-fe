@@ -11,6 +11,7 @@ import { Repositor } from 'model/repositor/repositor'
 import { repositorService } from 'src/services/repositores/RepositoresService'
 import { productoService } from './services/productos/ProductosService'
 import { Producto } from './model/producto/producto'
+import { SelectType, SelectTypeURL } from './interfaces/interfaces'
 
 const sectoresStub: Array<Sector> = [
   new Sector({ id: 1, name: 'carnes' }),
@@ -32,62 +33,62 @@ export default function App() {
   const [radioOption, setRadioOption] = useState('Sector')
   const [selectOption, setSelectOption] = useState<Sector | Repositor>(elements[0])
 
-  useOnInit(() => handleRadioChange('Sector'))
+  useOnInit(() => handleRadioChange(SelectType.Sector))
 
-  const getSectores = async () => {
-    try {
-      const sectores$ = await sectorService.getAll()
-      setElements([...sectores$])
-      setSelectOption(sectores$[0])
-      getProductosBySector(1)
+  const getComboData = async (tipo:SelectType) => {
+    try{
+      const data = tipo === SelectType.Sector ? await sectorService.getAll() : await repositorService.getAll()
+      setElements([...data])
+      setSelectOption(data[0])
+      getProductos(1, tipo === SelectType.Sector ? SelectTypeURL.Sector : SelectTypeURL.Repositor)
     } catch (e) {
-      setSelectOption(sectoresStub[0])
+      tipo === SelectType.Sector ? setSelectOption(sectoresStub[0]) : setSelectOption(repositoresStub[0])
       console.error('Unreachable server error', e)
     }
   }
+  
+  
+  // const getSectores = async () => {
+  //   try {
+  //     const sectores$ = await sectorService.getAll()
+  //     setElements([...sectores$])
+  //     setSelectOption(sectores$[0])
+  //     getProductos(1, SelectType.Sector)
+  //   } catch (e) {
+  //     setSelectOption(sectoresStub[0])
+  //     console.error('Unreachable server error', e)
+  //   }
+  // }
 
-  const getRepositores = async () => {
-    try {
-      const repositores$ = await repositorService.getAll()
-      setElements([...repositores$])
-      setSelectOption(repositores$[0])
-      getProductosByRepositor(1)
-    } catch (e) {
-      setSelectOption(repositoresStub[0])
-      console.error('Unreachable server error', e)
-    }
-  }
+  // const getRepositores = async () => {
+  //   try {
+  //     const repositores$ = await repositorService.getAll()
+  //     setElements([...repositores$])
+  //     setSelectOption(repositores$[0])
+  //     getProductos(1, SelectType.Repositor)
+  //   } catch (e) {
+  //     setSelectOption(repositoresStub[0])
+  //     console.error('Unreachable server error', e)
+  //   }
+  // }
 
-  const getProductosBySector = async (id: number) => {
+  const getProductos = async (id: number, type:SelectTypeURL) => {
     try {
-      const productos$ = await productoService.getBySector(id)
+      const productos$ = await productoService.getBySelect(id, type)
       setProducts([...productos$])
     } catch (e) {
       console.error('Unreachable server error', e)
     }
   }
 
-  const getProductosByRepositor = async (id: number) => {
-    try {
-      const productos$ = await productoService.getByRepositor(id)
-      setProducts([...productos$])
-    } catch (e) {
-      console.error('Unreachable server error', e)
-    }
-  }
-
-  const handleRadioChange = (value: string) => {
-    setRadioOption(value)
-    if (value === 'Sector') {
-      getSectores()
-    } else if (value === 'Repositor') {
-      getRepositores()
-    }
+  const handleRadioChange = (type: SelectType) => {
+    setRadioOption(type)   
+    getComboData(type)    
   }
 
   const handleSelectedOption = (value: Sector | Repositor) => {
     setSelectOption(value)
-    radioOption === 'Sector' ? getProductosBySector(value.id) : getProductosByRepositor(value.id)
+    radioOption === 'Sector' ? getProductos(value.id, SelectTypeURL.Sector) : getProductos(value.id, SelectTypeURL.Sector)
   }
 
   return (

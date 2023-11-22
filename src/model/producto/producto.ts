@@ -4,7 +4,6 @@ export class Producto {
 
   constructor(public props: IProducto) { }
 
-  get sectorId(): number { return this.props.id_sector }
   get productoId(): number { return this.props.id_producto }
   get productoNombre(): string { return this.props.producto }
   get gondolaNombre(): string { return this.props.gondola }

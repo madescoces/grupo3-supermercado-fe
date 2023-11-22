@@ -69,13 +69,12 @@ export const DatagridComponent = ({ products }: IDataGridComponent) => {
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>
-            {table.titles.map((title)=><StyledTableCell align={title.aligment}>{title.title}</StyledTableCell>)}            
+            {table.titles.map((title, index)=><StyledTableCell key={index} align={title.aligment}>{title.title}</StyledTableCell>)}            
           </TableRow>
         </TableHead>
         <TableBody>
           {table.data.map((row, index) => (
-            <StyledTableRow key={index}>
-              
+            <StyledTableRow key={index}>              
               <StyledTableCell component="th" scope="row">
                 {row.productoId}
               </StyledTableCell>

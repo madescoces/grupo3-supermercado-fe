@@ -10,8 +10,7 @@ export interface IRepositor {
   name: string
 }
 
-export interface IProducto {
-  id_sector: number
+export interface IProducto {  
   id_producto: number
   producto: string
   gondola: string
@@ -19,6 +18,16 @@ export interface IProducto {
 }
 
 export type TextAlign = "left" | "center" | "right" | "justify" | "inherit" | undefined
+
+export enum SelectType{
+  Sector = "Sector",
+  Repositor = "Repositor",
+}
+
+export enum SelectTypeURL {
+  Sector = "/productos/sector/",
+  Repositor = "/productos/repositor/"
+}
 export interface ITitle {
   title: string
   aligment: TextAlign
